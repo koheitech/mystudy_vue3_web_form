@@ -12,8 +12,9 @@
         <option value="designer">Web Designer</option>
     </select>
 
-    <label>Skills: (Press enter to add more)</label>
+    <label>Skills: (type comma to add more)</label>
     <input type="text" v-model="tempSkill" @keyup="addSkill">
+    <p>List of skills: (Click the skill to delete)</p>
     <div v-for="skill in skills" :key="skill" class="pill">
         <span @click="deleteSkill(skill)">{{ skill }}</span>
     </div>
@@ -21,6 +22,10 @@
     <div class="terms">
         <input type="checkbox" v-model="terms" required>
         <label>Accept terms and condition</label>
+    </div>
+
+    <div class="submit">
+        <button>Create an Account</button>
     </div>
   </form>
   <p>Email: {{ email }}</p>
@@ -43,11 +48,13 @@ export default {
     },
     methods: {
         addSkill(e) {
-            if (e.key === 'Enter' && this.tempSkill) {
+            if (e.key === ',' && this.tempSkill !== ',') {
+                this.tempSkill = this.tempSkill.slice(0, -1)
+                this.tempSkill = this.tempSkill.toUpperCase()
                 if (!this.skills.includes(this.tempSkill)) {
                     this.skills.push(this.tempSkill)
-                    this.tempSkill = ''
                 }
+                this.tempSkill = ''
             }
         },
         deleteSkill(skill) {
@@ -69,6 +76,14 @@ export default {
   label {
     color: #aaa;
     display: inline-block;
+    margin: 25px 0 15px;
+    font-size: 0.6em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+  p {
+    color: #aaa;
     margin: 25px 0 15px;
     font-size: 0.6em;
     text-transform: uppercase;
@@ -102,5 +117,22 @@ export default {
     font-weight: bold;
     color: #777;
     cursor: pointer;
+  }
+  button {
+    background: #0b6dff;
+    border: 0;
+    padding: 10px 20px;
+    margin-top: 20px;
+    color: white;
+    border-radius: 20px;
+  }
+  .submit {
+    text-align: center;
+  }
+  .error {
+    color: #ff0062;
+    margin-top: 10px;
+    font-size: 0.8em;
+    font-weight: bold;
   }
 </style>
